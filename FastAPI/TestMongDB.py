@@ -61,7 +61,7 @@ def mongo_helper2(doc):
 
 
 @app.get("/display_mongodb_helper2")
-async def diplay_mongo_data():
+async def diplay_mongo_data2():
     items=[]
     cursor=coll.find({})
     async for document in cursor:
