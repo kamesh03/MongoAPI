@@ -67,3 +67,15 @@ async def diplay_mongo_data2():
     async for document in cursor:
         items.append(mongo_helper2(document))
     return items
+
+@app.get("/debug_env")
+def debug_env():
+    uri = os.getenv("MONGO_URI") or ""
+    return {
+        "has_mongo_uri": bool(uri),
+        "starts_with_mongodb": uri.startswith("mongodb"),
+        "contains_srv": "mongodb+srv://" in uri,
+        "length": len(uri),
+        "first_20": uri[:20],   # safe prefix only
+        "last_10": uri[-10:]    # safe suffix only
+    }
