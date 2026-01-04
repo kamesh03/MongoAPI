@@ -28,6 +28,60 @@ async def insert_data_Mongo_helper(data:StudentData):
         "mongo_id": str(result.inserted_id)
     }
 
+class UpdateDetails(BaseModel):
+    id:int
+ 
+
+@app.post("/update_mongodb")
+async def update_data_Mongo_helper(upd:UpdateDetails):
+    result=await coll.update_one(
+        {"id":upd.id},
+        {"$set":{"name":"Name Updated","age":99}}
+    )
+
+    if result.modified_count==0:
+        return {"message":"nothing to modify"}
+    
+    if result.matched_count ==0:
+        return {"message":"no id found"}
+    
+
+
+    return {
+        "message": "Data updated successfully",
+        
+    }
+
+class UpdateNamePlace(BaseModel):
+    id:int
+    name:str
+    age:int
+    place:str
+    zipcode:str
+ 
+
+@app.post("/update_parameter_mongodb")
+async def update_data_Mongo_helper(updm:UpdateNamePlace):
+    result=await coll.update_one(
+        {"id":updm.id},
+        {"$set":{"name":updm.name,"age":updm.age,"place":updm.place,"zipcode":updm.zipcode}}
+    )
+
+    if result.modified_count==0:
+        return {"message":"nothing to modify"}
+    
+    if result.matched_count ==0:
+        return {"message":"no id found"}
+    
+
+
+    return {
+        "message": "Data updated successfully",
+        
+    }
+
+
+
 def mongo_helper(doc):
     doc["id"] = str(doc["_id"])
     del doc["_id"]
