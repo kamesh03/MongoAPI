@@ -80,7 +80,21 @@ async def update_data_Mongo_helper(updm:UpdateNamePlace):
         
     }
 
+class DeleteDetails(BaseModel):
+    id:int
+ 
 
+@app.post("/delete_mongodb")
+async def update_data_Mongo_helper(dele:DeleteDetails):
+    result=await coll.delete_one({"id":dele.id})
+
+    if result.deleted_count==0:
+        return {"message":"nothing to delete"}
+    
+    return {
+        "message": "Data deleted successfully",
+        
+    }
 
 def mongo_helper(doc):
     doc["id"] = str(doc["_id"])
